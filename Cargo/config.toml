@@ -1,0 +1,36 @@
+[options]
+pipelining = true
+rustflags = ["-C link-arg=-fuse-ld=lld", "-C link-arg=-Wl,--compress-debug-sections=zlib", "-C force-frame-pointers=yes"]
+rustc-wrapper = "sccache"
+
+[profile.debug]
+debug = 1
+
+[profile.release]
+debug = 1
+incremental = true
+lto = "thin"
+
+[profile.release-full]
+opt-level = 3
+lto = true
+codegen-units = 1
+debug = 1
+debug-assertions = false
+overflow-checks = false
+
+[profile.release-size]
+opt-level = "s"
+lto = true
+codegen-units = 1
+debug = 1
+debug-assertions = false
+overflow-checks = false
+
+[profile.release-tiny]
+opt-level = "z"
+lto = true
+codegen-units = 1
+debug = 1
+debug-assertions = false
+overflow-checks = false

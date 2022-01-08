@@ -1,0 +1,73 @@
+source "$HOME/.profile"
+
+if [ -n "$is_mac" ]; then
+	# Brew is horrifically slow, so let's only run `brew --prefix` once.
+	brew_prefix=$(brew --prefix)
+	FPATH="${brew_prefix}/share/zsh/site-functions:${FPATH}"
+fi
+
+FPATH="$HOME/.local/share/zsh:$FPATH"
+
+# Set up completions
+autoload -Uz compinit
+compinit
+zstyle ':completion::complete:*' gain-privileges 1
+
+# Set up shell plugins
+if [ "$(command -v starship)" ]; then
+	eval "$(starship init zsh)"
+fi
+if [ "$(command -v zoxide)" ]; then
+	eval "$(zoxide init zsh)"
+fi
+if [ $(command -v fnm) ]; then
+	eval "$(fnm env --use-on-cd)"
+fi
+
+if [ -n "$is_linux" ]; then
+	source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif [ -n "$is_mac" ]; then
+	source ${brew_prefix}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	source ${brew_prefix}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# Set up keybinds
+typeset -g -A key
+bindkey -e
+
+key[Home]="${terminfo[khome]}"
+key[End]="${terminfo[kend]}"
+key[Insert]="${terminfo[kich1]}"
+key[Backspace]="${terminfo[kbs]}"
+key[Delete]="${terminfo[kdch1]}"
+key[Up]="${terminfo[kcuu1]}"
+key[Down]="${terminfo[kcud1]}"
+key[Left]="${terminfo[kcub1]}"
+key[Right]="${terminfo[kcuf1]}"
+key[PageUp]="${terminfo[kpp]}"
+key[PageDown]="${terminfo[knp]}"
+key[Shift-Tab]="${terminfo[kcbt]}"
+
+key[Control-Left]="${terminfo[kLFT5]}"
+key[Control-Right]="${terminfo[kRIT5]}"
+
+[[ -n "${key[Control-Left]}"  ]] && bindkey -- "${key[Control-Left]}"  backward-word
+[[ -n "${key[Control-Right]}" ]] && bindkey -- "${key[Control-Right]}" forward-word
+
+# History stuff
+
+HISTFILE="$HOME/.zsh_history"
+HISTFILESIZE=100000000
+HISTSIZE=1000000000
+SAVEHIST=$HISTSIZE
+
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_VERIFY

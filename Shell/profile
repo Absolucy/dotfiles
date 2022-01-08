@@ -1,0 +1,29 @@
+case "$(uname -s)" in
+    Linux*)     is_linux=1;;
+    Darwin*)    is_mac=1;;
+esac
+
+export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
+export GPG_TTY=$(tty)
+export EDITOR=${EDITOR:=nano}
+
+# Helpful aliases
+alias srm='shred -uvz -n 16'
+alias shoot='killall -s SIGKILL'
+
+# Use lsd for listing files
+if [ "$(command -v lsd)" ]; then
+	alias ls='lsd'
+	alias ll='ls -la'
+	alias l='ls -l'
+	alias la='ls -a'
+	alias lla='ls -la'
+	alias lt='ls --tree'
+	alias cat='bat --color auto --style plain'
+fi
+
+# Use bat for manpages
+if [ "$(command -v bat)" ]; then
+	alias cat='bat --color auto --style plain'
+	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi

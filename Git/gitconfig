@@ -1,0 +1,49 @@
+[user]
+	name = Lucy
+	email = lucy@absolucy.moe
+	signingkey = EBC517FAD666BBF1
+[commit]
+	gpgsign = true
+[core]
+	excludesfile = ~/.gitignore_global
+	pager = delta
+	whitespace = -trailing-space
+[alias]
+	reword = commit --amend
+	uncommit = reset --soft HEAD~1
+	untrack = rm --cache --
+	oops = commit --amend --no-edit
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	side-by-side = true
+	line-numbers-left-format = ""
+	line-numbers-right-format = "│ "
+[pull]
+	autocrlf = input
+	ff = true
+[merge]
+	ff = true
+[url "https://github.com/"]
+	insteadOf = "gh:"
+[url "git@github.com:"]
+	pushInsteadOf = "gh:"
+[color]
+	ui = auto
+[log]
+	abbrevCommit = true
+[color "branch"]
+	upstream = cyan
+[tag]
+	sort = version:refname
+[versionsort]
+	prereleaseSuffix = -pre
+	prereleaseSuffix = .pre
+	prereleaseSuffix = -beta
+	prereleaseSuffix = .beta
+	prereleaseSuffix = -rc
+	prereleaseSuffix = .rc
+[diff]
+	mnemonicPrefix = true
+[init]
+	defaultBranch = main
