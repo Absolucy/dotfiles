@@ -12,6 +12,7 @@ incremental = true
 lto = "thin"
 
 [profile.release-full]
+inherits = "release"
 opt-level = 3
 lto = true
 codegen-units = 1
@@ -20,6 +21,7 @@ debug-assertions = false
 overflow-checks = false
 
 [profile.release-size]
+inherits = "release"
 opt-level = "s"
 lto = true
 codegen-units = 1
@@ -28,6 +30,7 @@ debug-assertions = false
 overflow-checks = false
 
 [profile.release-tiny]
+inherits = "release"
 opt-level = "z"
 lto = true
 codegen-units = 1
