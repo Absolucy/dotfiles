@@ -6,6 +6,6 @@
 {{ if ne .chezmoi.os "linux" }}
 .config
 {{ end }}
-{{ if ne .chezmoi.osRelease.id "arch" }}
+{{ if (and (eq .chezmoi.os "linux") (ne .chezmoi.osRelease.id "arch")) }}
 .config/paru
 {{ end }}
