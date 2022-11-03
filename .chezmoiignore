@@ -2,6 +2,7 @@
 .bashrc
 .profile
 .zshrc
+.local/share/atuin
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
