@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # If it hasn't been already, initialize the profile.
-if [[ -z "${LUCY_PROFILE_RAN+x}" ]]; then 
+if [[ -z "${LUCY_PROFILE_RAN+x}" ]]; then
 	source "${HOME}/.profile"
 fi
 
@@ -30,6 +30,7 @@ if [[ -f "${ZI[BIN_DIR]}/zi.zsh" ]]; then
       zsh-users/zsh-completions \
 		atload"!_zsh_autosuggest_start" \
       zsh-users/zsh-autosuggestions \
+	  spaceship-prompt/spaceship-prompt \
 	  foxleigh81/unwrap-zsh-plugin \
 	  djui/alias-tips \
 		has"zoxide" \

@@ -69,4 +69,8 @@ if [[ -x "$(command -v lsd)" ]]; then
 	alias lt='lsd --tree'
 fi
 
+if [[ -x "$(command -v nano)" ]];
+	EDITOR=nano
+fi
+
 LUCY_PROFILE_RAN=1
