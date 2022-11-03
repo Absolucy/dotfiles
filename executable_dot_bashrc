@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [[ -z ${LUCY_PROFILE_RAN+x} ]]; then 
+	source "${HOME}/.profile"
+fi
+
+if [[ -x "$(command -v starship)" ]]; then
+	eval "$(starship init bash)"
+fi

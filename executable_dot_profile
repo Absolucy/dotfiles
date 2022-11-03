@@ -1,0 +1,72 @@
+# Ensure we're in zsh or bash; exit if we're not!
+[ -n "${ZSH_VERSION+x}${BASH_VERSION+x}" ] || exit 0
+
+# Get the current operating system
+_uname_out="$(uname -s)"
+case "${_uname_out}" in
+    Linux*)     OS=Linux;;
+    Darwin*)    OS=macOS;;
+    CYGWIN*)    OS=Cygwin;;
+    MINGW*)     OS=MinGW;;
+    *)          OS="UNKNOWN:${unameOut}"
+esac
+unset _uname_out
+
+if [[ "$OS" == "macOS" ]]; then
+	XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"${HOME}/Library/Preferences"}"
+	XDG_CACHE_HOME="${XDG_CACHE_HOME:-"${HOME}/Library/Caches"}"
+	XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/Library"}"
+else
+	XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"${HOME}/.config"}"
+	XDG_CACHE_HOME="${XDG_CACHE_HOME:-"${HOME}/.cache"}"
+	XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
+fi
+
+if [[ -x "$(command -v brew)" ]]; then
+	USING_BREW=1
+	# cache brew prefix, because brew is slow as shit
+	BREW_PREFIX="$(brew --prefix)"
+
+	# Add [brew]/sbin to PATH
+	if [[ -d "${BREW_PREFIX}/sbin" ]] && [[ ":${PATH}:" == *":${BREW_PREFIX}/sbin:"* ]]; then
+		PATH="${BREW_PREFIX}/sbin:${PATH}"
+	fi
+
+	# Add [brew]/bin to PATH
+	if [[ -d "${BREW_PREFIX}/bin" ]] && [[ ":${PATH}:" != *":${BREW_PREFIX}/bin:"* ]]; then
+		PATH="${BREW_PREFIX}/bin:${PATH}"
+	fi
+fi
+
+# Initialize rustup environment, if we need to do so.
+if [[ -f "${HOME}/.cargo/env" ]]; then
+	source "${HOME}/.cargo/env"
+fi
+
+# Add /usr/local/bin to PATH
+if [[ -d /usr/local/bin ]] && [[ ":${PATH}:" != *":/usr/local/bin:"* ]]; then
+	PATH="/usr/local/bin:${PATH}"
+fi
+
+# Add ~/.local/bin to PATH
+if [[ -d "${HOME}/.local/bin" ]] && [[ ":${PATH}:" != *":${HOME}/.local/bin:"* ]]; then
+	PATH="${HOME}/.local/bin:${PATH}"
+fi
+
+# Set up aliases for bat, if it's installed.
+if [[ -x "$(command -v bat)" ]]; then
+	alias bhelp='bat --plain --language=help'
+	alias cat='bat --paging=never --style=plain'
+	MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
+
+# Set up aliases for lsd, if it's installed.
+if [[ -x "$(command -v lsd)" ]]; then
+	alias ls='lsd --color=auto'
+	alias l='lsd -l'
+	alias la='lsd -a'
+	alias ll='lsd -la'
+	alias lt='lsd --tree'
+fi
+
+LUCY_PROFILE_RAN=1

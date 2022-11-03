@@ -1,0 +1,92 @@
+#!/usr/bin/env zsh
+
+# If it hasn't been already, initialize the profile.
+if [[ -z "${LUCY_PROFILE_RAN+x}" ]]; then 
+	source "${HOME}/.profile"
+fi
+
+# zshrc has already ran, so we can just exit :3
+if [[ -n "${ZI+x}" ]]; then
+	return
+fi
+
+# Set up Zi
+typeset -Ag ZI
+typeset -gx ZI[HOME_DIR]="${XDG_DATA_HOME}/zi" ZI[BIN_DIR]="${HOME}/.local/bin/zi"
+
+# Clone Zi if it doesn't exist
+if [[ ! -d "${ZI[BIN_DIR]}" ]] && [[ -x "$(command -v git)" ]]; then
+	git clone https://github.com/z-shell/zi.git "${ZI[BIN_DIR]}"
+fi
+
+# Now, we set up Zi!
+if [[ -f "${ZI[BIN_DIR]}/zi.zsh" ]]; then
+	source "${ZI[BIN_DIR]}/zi.zsh"
+
+	zi wait lucid for \
+		atinit"ZI[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+      z-shell/F-Sy-H \
+		blockf \
+      zsh-users/zsh-completions \
+		atload"!_zsh_autosuggest_start" \
+      zsh-users/zsh-autosuggestions \
+	  foxleigh81/unwrap-zsh-plugin \
+	  djui/alias-tips \
+		has"zoxide" \
+	  z-shell/zsh-zoxide \
+		nocompile blockf has"cargo" \
+	  MenkeTechnologies/zsh-cargo-completion \
+	    blockf atpull'zi creinstall -q .' has"pnpm" \
+	  baliestri/pnpm.plugin.zsh \
+	  sunlei/zsh-ssh \
+	  OMZP::command-not-found \
+	  OMZP::history \
+	  OMZP::extract \
+	  OMZP::dotenv \
+		as"completion" blockf has"tldr" mv"zsh_tealdeer -> _tldr" \
+	  https://github.com/dbrgn/tealdeer/blob/main/completion/zsh_tealdeer \
+		as"completion" blockf has"rg" \
+	  https://github.com/BurntSushi/ripgrep/blob/master/complete/_rg \
+	  	as"completion" has"docker" \
+	  https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker \
+	  	as"completion" blockf has"fd" \
+	  https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/fd/_fd \
+	    as"completion" blockf has"rustc" \
+	  https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/rust/_rustc
+
+	  if [[ "${OS}" == "macOS" ]]; then
+	  	zi wait lucid blockf for \
+			scriptingosx/mac-zsh-completions
+	  fi
+
+	  if [[ -n "${USING_BREW+x}" ]]; then
+	  	zi wait pack atload=+"zicompinit_fast; zicdreplay" for \
+			brew-completions
+	  fi
+fi
+
+# Set up bind keys
+bindkey -e
+if [[ "${OS}" == "macOS" ]]; then
+	# <-Option
+	bindkey "^[b" backward-word
+	# Option->
+	bindkey "^[f" forward-word
+	# <-Command
+	bindkey "^A" beginning-of-line
+	# Command->
+	bindkey "^E" end-of-line
+else
+	# <-Ctrl
+	bindkey "^[[1;5D" backward-word
+	# Ctrl->
+	bindkey "^[[1;5C" forward-word
+	# <-Alt
+	bindkey "^[[1;3D" backward-word
+	# Alt->
+	bindkey "^[[1;3C" forward-word
+	# Home
+	bindkey "^[[H" beginning-of-line
+	# End
+	bindkey "^[[F" end-of-line
+fi
