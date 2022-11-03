@@ -1,0 +1,11 @@
+{{ if eq .chezmoi.os "windows" }}
+.bashrc
+.profile
+.zshrc
+{{ end }}
+{{ if ne .chezmoi.os "linux" }}
+.config
+{{ end }}
+{{ if ne .chezmoi.osRelease.id "arch" }}
+.config/paru
+{{ end }}

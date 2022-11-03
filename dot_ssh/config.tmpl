@@ -1,0 +1,35 @@
+Host github.com
+	HostName github.com
+	User git
+	IdentitiesOnly yes
+	IdentityFile ~/.ssh/id_github
+	
+Host router 10.0.0.1
+	HostName 10.0.0.1
+	User lucy
+	IdentitiesOnly yes
+	IdentityFile ~/.ssh/id_router
+
+Host macbook
+	HostName Lucys-Macbook-Air.local
+	User lucy
+	IdentitiesOnly yes
+	IdentityFile ~/.ssh/id_macbook
+
+Host nas
+	HostName cat-cafe.local
+	User lucy
+	IdentitiesOnly yes
+	IdentityFile ~/.ssh/id_nas
+
+Host oracle
+	HostName {{ onepasswordRead "op://Personal/Oracle VPS/add more/IP" }}
+	User lucy
+	IdentitiesOnly yes
+	IdentityFile ~/.ssh/id_oracle
+
+Host octopi
+	HostName octopi.local
+	User pi
+	IdentitiesOnly yes
+	IdentityFile ~/.ssh/id_octopi
