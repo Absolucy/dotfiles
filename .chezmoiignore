@@ -15,3 +15,8 @@
 {{ if ne .chezmoi.os "windows" }}
 AppData
 {{ end }}
+
+{{ if .no_onepassword }}
+.ssh
+.local/share/atuin
+{{ end }}
