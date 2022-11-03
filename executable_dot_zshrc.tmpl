@@ -25,29 +25,30 @@ if [[ -f "${ZI[BIN_DIR]}/zi.zsh" ]]; then
 
 	zi light spaceship-prompt/spaceship-prompt
 	zi wait lucid for \
-		atinit"ZI[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-      z-shell/F-Sy-H \
-		blockf \
-      zsh-users/zsh-completions \
-		atload"!_zsh_autosuggest_start" \
-      zsh-users/zsh-autosuggestions \
 	  foxleigh81/unwrap-zsh-plugin \
 	  MichaelAquilina/zsh-you-should-use \
 	    has"atuin" \
 	  ellie/atuin \
 		has"zoxide" \
 	  z-shell/zsh-zoxide \
-		nocompile blockf has"cargo" \
+		nocompile blockf atpull"zi creinstall -q src" has"cargo" \
 	  MenkeTechnologies/zsh-cargo-completion \
-	    blockf atpull'zi creinstall -q .' has"pnpm" \
+	    blockf atpull"zi creinstall -q ." has"pnpm" \
 	  baliestri/pnpm.plugin.zsh \
 	  sunlei/zsh-ssh \
+	  voronkovich/gitignore.plugin.zsh \
+		has"op" atpull"zi creinstall -q ." \
+	  agpenton/1password-zsh-plugin \
 {{- if (or (eq .chezmoi.os "darwin") (index . "unix_desktop")) -}}
 	  mattmc3/zsh-safe-rm \
 {{- end -}}
 {{- if (eq .chezmoi.os "darwin") -}}
-		blockf \
+		blockf atpull"zi creinstall -q completions" \
 	  scriptingosx/mac-zsh-completions \
+	  	blockf \
+	  zshzoo/macos \
+	  	pick"init.zsh" compile'*.zsh' \
+	  laggardkernel/zsh-iterm2 \
 {{- end -}}
 	  OMZP::command-not-found \
 	  OMZP::history \
@@ -62,7 +63,15 @@ if [[ -f "${ZI[BIN_DIR]}/zi.zsh" ]]; then
 	  	as"completion" blockf has"fd" \
 	  https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/fd/_fd \
 	    as"completion" blockf has"rustc" \
-	  https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/rust/_rustc
+	  https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/rust/_rustc \
+	  	blockf \
+	  zsh-users/zsh-completions \
+	  	has"fzf" \
+	  Aloxaf/fzf-tab \
+		atinit"ZI[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+      z-shell/F-Sy-H \
+		atload"!_zsh_autosuggest_start" \
+      zsh-users/zsh-autosuggestions \
 
 	  if [[ -n "${USING_BREW+x}" ]]; then
 	  	zi wait pack atload=+"zicompinit_fast; zicdreplay" for \
