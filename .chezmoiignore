@@ -16,7 +16,7 @@
 AppData
 {{ end }}
 
-{{ if .no_onepassword }}
+{{ if (index . "no_onepassword") }}
 .ssh
 .local/share/atuin
 {{ end }}
