@@ -23,6 +23,7 @@ fi
 if [[ -f "${ZI[BIN_DIR]}/zi.zsh" ]]; then
 	source "${ZI[BIN_DIR]}/zi.zsh"
 
+	zi light spaceship-prompt/spaceship-prompt
 	zi wait lucid for \
 		atinit"ZI[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
       z-shell/F-Sy-H \
@@ -30,9 +31,10 @@ if [[ -f "${ZI[BIN_DIR]}/zi.zsh" ]]; then
       zsh-users/zsh-completions \
 		atload"!_zsh_autosuggest_start" \
       zsh-users/zsh-autosuggestions \
-	  spaceship-prompt/spaceship-prompt \
 	  foxleigh81/unwrap-zsh-plugin \
 	  djui/alias-tips \
+	    has"atuin" \
+	  ellie/atuin \
 		has"zoxide" \
 	  z-shell/zsh-zoxide \
 		nocompile blockf has"cargo" \
