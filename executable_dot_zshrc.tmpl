@@ -42,6 +42,9 @@ if [[ -f "${ZI[BIN_DIR]}/zi.zsh" ]]; then
 	    blockf atpull'zi creinstall -q .' has"pnpm" \
 	  baliestri/pnpm.plugin.zsh \
 	  sunlei/zsh-ssh \
+{{- if (or (eq .chezmoi.os "darwin") (index . "unix_desktop")) }}
+	  mattmc3/zsh-safe-rm \
+{{ end -}}
 	  OMZP::command-not-found \
 	  OMZP::history \
 	  OMZP::extract \
