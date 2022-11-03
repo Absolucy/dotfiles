@@ -32,7 +32,7 @@ if [[ -f "${ZI[BIN_DIR]}/zi.zsh" ]]; then
 		atload"!_zsh_autosuggest_start" \
       zsh-users/zsh-autosuggestions \
 	  foxleigh81/unwrap-zsh-plugin \
-	  djui/alias-tips \
+	  MichaelAquilina/zsh-you-should-use \
 	    has"atuin" \
 	  ellie/atuin \
 		has"zoxide" \
