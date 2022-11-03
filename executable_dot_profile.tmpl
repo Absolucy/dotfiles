@@ -74,3 +74,10 @@ if [[ -x "$(command -v nano)" ]]; then
 fi
 
 LUCY_PROFILE_RAN=1
+
+{{ if (eq .chezmoi.hostname "cat-cafe") }}
+if [[ -x /opt/bin/zsh ]]; then
+  export SHELL=/opt/bin/zsh
+  exec /opt/bin/zsh
+fi
+{{ end }}
