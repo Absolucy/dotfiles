@@ -42,9 +42,13 @@ if [[ -f "${ZI[BIN_DIR]}/zi.zsh" ]]; then
 	    blockf atpull'zi creinstall -q .' has"pnpm" \
 	  baliestri/pnpm.plugin.zsh \
 	  sunlei/zsh-ssh \
-{{- if (or (eq .chezmoi.os "darwin") (index . "unix_desktop")) }}
+{{- if (or (eq .chezmoi.os "darwin") (index . "unix_desktop")) -}}
 	  mattmc3/zsh-safe-rm \
-{{ end -}}
+{{- end -}}
+{{- if (eq .chezmoi.os "darwin") -}}
+		blockf \
+	  scriptingosx/mac-zsh-completions \
+{{- end -}}
 	  OMZP::command-not-found \
 	  OMZP::history \
 	  OMZP::extract \
@@ -59,11 +63,6 @@ if [[ -f "${ZI[BIN_DIR]}/zi.zsh" ]]; then
 	  https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/fd/_fd \
 	    as"completion" blockf has"rustc" \
 	  https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/rust/_rustc
-
-	  if [[ "${OS}" == "macOS" ]]; then
-	  	zi wait lucid blockf for \
-			scriptingosx/mac-zsh-completions
-	  fi
 
 	  if [[ -n "${USING_BREW+x}" ]]; then
 	  	zi wait pack atload=+"zicompinit_fast; zicdreplay" for \
