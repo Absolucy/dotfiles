@@ -7,9 +7,9 @@
 
 {{ if ne .chezmoi.os "linux" }}
 .config
-{{ if (and (.chezmoi.osRelease) (ne .chezmoi.osRelease.id "arch")) }}
-.config/paru
 {{ end }}
+{{ if (and (eq .chezmoi.os "linux") (.chezmoi.osRelease) (ne .chezmoi.osRelease.id "arch")) }}
+.config/paru
 {{ end }}
 
 {{ if ne .chezmoi.os "windows" }}
