@@ -3,9 +3,14 @@
 .profile
 .zshrc
 {{ end }}
+
 {{ if ne .chezmoi.os "linux" }}
 .config
 {{ end }}
 {{ if (and (eq .chezmoi.os "linux") (ne .chezmoi.osRelease.id "arch")) }}
 .config/paru
+{{ end }}
+
+{{ if ne .chezmoi.os "windows" }}
+AppData
 {{ end }}
