@@ -29,7 +29,7 @@ if [[ -x "$(command -v brew)" ]]; then
 	BREW_PREFIX="$(brew --prefix)"
 
 	# Add [brew]/sbin to PATH
-	if [[ -d "${BREW_PREFIX}/sbin" ]] && [[ ":${PATH}:" == *":${BREW_PREFIX}/sbin:"* ]]; then
+	if [[ -d "${BREW_PREFIX}/sbin" ]] && [[ ":${PATH}:" != *":${BREW_PREFIX}/sbin:"* ]]; then
 		export PATH="${BREW_PREFIX}/sbin:${PATH}"
 	fi
 
