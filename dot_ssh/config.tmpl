@@ -2,7 +2,7 @@ Host github.com
 	HostName github.com
 	User git
 	IdentitiesOnly yes
-	IdentityFile ~/.ssh/id_github
+	IdentityFile '~/.ssh/GitHub - YubiKey 5C NFC (Rainbow)'
 
 Host router 10.0.0.1
 	HostName 10.0.0.1
@@ -13,20 +13,18 @@ Host router 10.0.0.1
 Host macbook
 	HostName Lucys-Macbook-Air.local
 	User lucy
-	IdentitiesOnly yes
-	IdentityFile ~/.ssh/id_macbook
 
 Host nas
 	HostName cat-cafe.local
 	User lucy
 	IdentitiesOnly yes
-	IdentityFile ~/.ssh/id_nas
+	IdentityFile '~/.ssh/NAS - YubiKey 5C NFC (Rainbow)'
 
 Host oracle
-	HostName {{ onepasswordRead "op://Personal/Oracle VPS/add more/IP" }}
+	HostName {{ onepasswordRead "op://Personal/Oracle VPS/ip" }}
 	User lucy
 	IdentitiesOnly yes
-	IdentityFile ~/.ssh/id_oracle
+	IdentityFile '~/.ssh/Oracle VPS - YubiKey 5C NFC (Rainbow)'
 
 Host octopi
 	HostName octopi.local
@@ -37,3 +35,9 @@ Host octopi
 Host steamdeck
 	HostName lucys-steam-deck.local
 	User deck
+
+Host voron
+	HostName voron.local
+	User pi
+	IdentitiesOnly yes
+	IdentityFile ~/.ssh/id_voron
