@@ -1,0 +1,38 @@
+[build]
+incremental = true
+rustflags = [
+{{ if eq .chezmoi.os "linux" }}
+	"-C", "link-arg=-fuse-ld=mold",
+{{ else if eq .chezmoi.os "darwin" }}
+	"-C", "link-arg=-fuse-ld=lld",
+{{ end }}
+	"-C", "target-cpu=native",
+	"--remap-path-prefix={{ .chezmoi.homeDir }}=\u001b[36;1m~\u001b[0m",
+{{ if eq .chezmoi.os "windows" }}
+    "--remap-path-prefix={{ .chezmoi.homeDir }}\\.cargo=\u001b[36;1mcargo\u001b[0m",
+    "--remap-path-prefix={{ .chezmoi.homeDir }}\\.cargo\\registry\\src\\github.com-1ecc6299db9ec823=crates.io\u001b[0m",
+    "--remap-path-prefix={{ .chezmoi.homeDir }}\\.rustup=\u001b[36;1mrustup\u001b[0m"
+{{ else }}
+	"--remap-path-prefix={{ .chezmoi.homeDir }}/.cargo=\u001b[36;1mcargo\u001b[0m",
+	"--remap-path-prefix={{ .chezmoi.homeDir }}/.cargo/registry/src/github.com-1ecc6299db9ec823=crates.io\u001b[0m",
+	"--remap-path-prefix={{ .chezmoi.homeDir }}/.rustup=\u001b[36;1mrustup\u001b[0m"
+{{ end }}
+]
+rustc-wrapper = "sccache"
+
+{{ if eq .chezmoi.os "linux" }}
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+{{ end }}
+
+[registries.crates-io]
+protocol = "sparse"
+
+[profile.release]
+codegen-units = 1
+lto = true
+strip = "none"
+debug = 1
+
+[profile.dev]
+opt-level = 1
