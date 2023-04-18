@@ -32,8 +32,7 @@ linker = "clang"
 protocol = "sparse"
 
 [profile.release]
-codegen-units = 1
-lto = true
+lto = "thin"
 strip = "none"
 debug = 1
 
