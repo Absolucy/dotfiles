@@ -8,6 +8,11 @@
 	excludesfile = ~/.gitignore_global
 	pager = delta
 	whitespace = -trailing-space
+{{ if eq .chezmoi.os "windows" }}
+	sshcommand = \"C:/Program Files/OpenSSH/ssh.exe\"
+{{ else if (and (eq .chezmoi.os "linux") (contains "microsoft" .chezmoi.kernel.osrelease)) }}
+	sshcommand = \"/mnt/c/Program Files/OpenSSH/ssh.exe\"
+{{ end }}
 [alias]
 	reword = commit --amend
 	uncommit = reset --soft HEAD~1
@@ -24,6 +29,8 @@
 	ff = true
 [merge]
 	ff = true
+[push]
+	autoSetupRemote = true
 [url "https://github.com/"]
 	insteadOf = "gh:"
 [url "git@github.com:"]
@@ -41,4 +48,7 @@
 {{ if eq .chezmoi.os "windows" }}
 [gpg]
 	program = C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe
+{{ else if (and (eq .chezmoi.os "linux") (contains "microsoft" .chezmoi.kernel.osrelease)) }}
+[gpg]
+	program = /mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe
 {{ end }}
