@@ -7,14 +7,17 @@ rustflags = [
 	"-C", "link-arg=-fuse-ld=lld",
 {{ end }}
 	"-C", "target-cpu=native",
-	"--remap-path-prefix={{ .chezmoi.homeDir }}=\u001b[36;1m~\u001b[0m",
 {{ if eq .chezmoi.os "windows" }}
-    "--remap-path-prefix={{ .chezmoi.homeDir }}\\.cargo=\u001b[36;1mcargo\u001b[0m",
-    "--remap-path-prefix={{ .chezmoi.homeDir }}\\.cargo\\registry\\src\\github.com-1ecc6299db9ec823=crates.io\u001b[0m",
-    "--remap-path-prefix={{ .chezmoi.homeDir }}\\.rustup=\u001b[36;1mrustup\u001b[0m"
+	"--remap-path-prefix={{ .chezmoi.homeDir | replace "/" "\\\\" }}=\u001b[36;1m~\u001b[0m",
+	"--remap-path-prefix={{ .chezmoi.homeDir | replace "/" "\\\\" }}\\.cargo=\u001b[36;1mcargo\u001b[0m",
+	"--remap-path-prefix={{ .chezmoi.homeDir | replace "/" "\\\\" }}\\.cargo\\registry\\src\\github.com-1ecc6299db9ec823=crates.io\u001b[0m",
+	"--remap-path-prefix={{ .chezmoi.homeDir | replace "/" "\\\\" }}\\.cargo\\registry\\src\\index.crates.io-6f17d22bba15001f=crates.io\u001b[0m",
+	"--remap-path-prefix={{ .chezmoi.homeDir | replace "/" "\\\\" }}\\.rustup=\u001b[36;1mrustup\u001b[0m"
 {{ else }}
+	"--remap-path-prefix={{ .chezmoi.homeDir }}=\u001b[36;1m~\u001b[0m",
 	"--remap-path-prefix={{ .chezmoi.homeDir }}/.cargo=\u001b[36;1mcargo\u001b[0m",
 	"--remap-path-prefix={{ .chezmoi.homeDir }}/.cargo/registry/src/github.com-1ecc6299db9ec823=crates.io\u001b[0m",
+	"--remap-path-prefix={{ .chezmoi.homeDir }}/.cargo/registry/src/index.crates.io-6f17d22bba15001f=crates.io\u001b[0m",
 	"--remap-path-prefix={{ .chezmoi.homeDir }}/.rustup=\u001b[36;1mrustup\u001b[0m"
 {{ end }}
 ]
