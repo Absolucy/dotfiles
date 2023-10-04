@@ -17,7 +17,6 @@ AppData
 Documents
 {{ end }}
 
-{{ if (index . "no_onepassword") }}
-.ssh
+{{ if not (lookPath "op") }}
 .local/share/atuin
 {{ end }}

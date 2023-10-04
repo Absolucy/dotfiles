@@ -2,42 +2,28 @@ Host github.com
 	HostName github.com
 	User git
 	IdentitiesOnly yes
-	IdentityFile '~/.ssh/GitHub - YubiKey 5C NFC (Rainbow)'
+	IdentityFile ~/.ssh/id_github.pub
 
 Host router 10.0.0.1
 	HostName 10.0.0.1
 	User lucy
-	IdentitiesOnly yes
-	IdentityFile ~/.ssh/id_router
+	PubKeyAuthentication no
 
 Host macbook
 	HostName Lucys-Macbook-Air.local
 	User lucy
-
-Host nas
-	HostName cat-cafe.local
-	User lucy
 	IdentitiesOnly yes
-	IdentityFile '~/.ssh/NAS - YubiKey 5C NFC (Rainbow)'
+	IdentityFile '~/.ssh/id_macbook.pub'
 
+{{ if lookPath "op" }}
 Host oracle
 	HostName {{ onepasswordRead "op://Personal/Oracle VPS/ip" }}
 	User lucy
 	IdentitiesOnly yes
-	IdentityFile '~/.ssh/Oracle VPS - YubiKey 5C NFC (Rainbow)'
-
-Host octopi
-	HostName octopi.local
-	User pi
-	IdentitiesOnly yes
-	IdentityFile ~/.ssh/id_octopi
+	IdentityFile '~/.ssh/id_oracle.pub'
+{{- end }}
 
 Host steamdeck
 	HostName lucys-steam-deck.local
 	User deck
-
-Host voron
-	HostName voron.local
-	User pi
-	IdentitiesOnly yes
-	IdentityFile ~/.ssh/id_voron
+	PubKeyAuthentication no
