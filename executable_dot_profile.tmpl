@@ -40,7 +40,7 @@ if [[ -x "$(command -v brew)" ]]; then
 fi
 
 export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
-if [[ -d "$(command -v pnpm)" ]]; then
+if [[ -d "${PNPM_HOME}" ]]; then
 	export PATH="${PNPM_HOME}:${PATH}"
 fi
 
