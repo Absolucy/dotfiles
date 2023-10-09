@@ -39,8 +39,8 @@ if [[ -x "$(command -v brew)" ]]; then
 	fi
 fi
 
-if [[ -x "$(command -v pnpm)" ]]; then
-	export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
+export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
+if [[ -d "$(command -v pnpm)" ]]; then
 	export PATH="${PNPM_HOME}:${PATH}"
 fi
 
