@@ -1,0 +1,8 @@
+{{- if eq .chezmoi.os "darwin" -}}
+export ZDOTDIR="${HOME}/Library/Lucy-Shell"
+export ZINIT_HOME="${ZDOTDIR}/zinit"
+export STARSHIP_CONFIG="${HOME}/Library/Preferences/starship.toml"
+{{- else if eq .chezmoi.os "linux" -}}
+export ZDOTDIR="${HOME}/.config/lucy-shell"
+export ZINIT_HOME="${ZDOTDIR}/zinit"
+{{- end -}}

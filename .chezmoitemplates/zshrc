@@ -1,0 +1,60 @@
+#!/usr/bin/env zsh
+
+if [[ -z ${LUCY_PROFILE_RAN+x} ]]; then
+	source "${HOME}/.profile"
+fi
+
+[ ! -d "${ZINIT_HOME}" ] && mkdir -p "$(dirname "${ZINIT_HOME}")"
+[ ! -d "${ZINIT_HOME}/.git" ] && git clone https://github.com/zdharma-continuum/zinit.git "${ZINIT_HOME}"
+source "${ZINIT_HOME}/zinit.zsh"
+
+zinit as wait'!0' lucid for \
+	foxleigh81/unwrap-zsh-plugin \
+	sunlei/zsh-ssh \
+	OMZP::gitignore \
+	OMZP::gpg-agent \
+	OMZP::python \
+	as="completion" blockf has="pip" \
+		OMZP::pip/_pip \
+	has="dotnet" \
+		OMZP::dotnet \
+	has="mosh" \
+		OMZP::mosh \
+	as="completion" blockf has="ufw" \
+		OMZP::ufw/_ufw \
+	has="zoxide" \
+		OMZP::zoxide \
+	has="atuin" \
+		ellie/atuin \
+	has="podman" \
+		OMZP::podman \
+	blockf atpull="zinit creinstall -q ." \
+		zsh-users/zsh-completions \
+	as="completion" blockf has="docker" \
+		OMZP::docker/_docker \
+	as="completion" blockf has="docker-compose" \
+		OMZP::docker-compose/_docker-compose \
+	as="completion" blockf has="fd" \
+		OMZP::fd/_fd \
+	as="completion" blockf has="rustc" \
+		OMZP::rust/_rustc \
+	as="completion" blockf has="http" \
+		OMZP::httpie/_httpie \
+	nocompile blockf atpull="zi creinstall -q src" has="cargo" \
+		MenkeTechnologies/zsh-cargo-completion \
+	as="completion" blockf has="tldr" mv="zsh_tealdeer -> _tldr" \
+		https://github.com/dbrgn/tealdeer/blob/main/completion/zsh_tealdeer \
+	as="completion" blockf has="rg" \
+		https://github.com/BurntSushi/ripgrep/blob/master/complete/_rg \
+	as="completion" blockf has="pnpm" \
+		https://github.com/baliestri/pnpm.plugin.zsh/blob/main/_pnpm \
+	has="fzf" \
+		Aloxaf/fzf-tab \
+	blockf \
+		zsh-users/zsh-completions \
+	atinit="zicompinit; zicdreplay" \
+		zdharma-continuum/fast-syntax-highlighting \
+	atload="_zsh_autosuggest_start" \
+		zsh-users/zsh-autosuggestions \
+	has="starship" \
+		OMZP::starship

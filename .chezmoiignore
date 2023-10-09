@@ -12,6 +12,10 @@
 .config/paru
 {{ end }}
 
+{{ if ne .chezmoi.os "darwin" }}
+Library
+{{ end }}
+
 {{ if ne .chezmoi.os "windows" }}
 AppData
 Documents

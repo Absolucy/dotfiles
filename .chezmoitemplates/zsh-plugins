@@ -1,0 +1,58 @@
+# completions
+MenkeTechnologies/zsh-cargo-completion path:src kind:fpath
+baliestri/pnpm.plugin.zsh kind:fpath
+clavelm/yt-dlp-omz-plugin
+naegling/zsh-autorestic
+sambergo/zsh-prettier-completion kind:fpath
+unixorn/1password-op.plugin.zsh
+zsh-users/zsh-completions
+
+# oh-my-zsh completions
+ohmyzsh/ohmyzsh path:plugins/docker
+ohmyzsh/ohmyzsh path:plugins/docker-compose
+ohmyzsh/ohmyzsh path:plugins/dotnet
+ohmyzsh/ohmyzsh path:plugins/fd
+ohmyzsh/ohmyzsh path:plugins/httpie
+ohmyzsh/ohmyzsh path:plugins/mosh
+ohmyzsh/ohmyzsh path:plugins/pip
+ohmyzsh/ohmyzsh path:plugins/ripgrep
+
+{{- if eq .chezmoi.os "darwin" -}}
+keith/zsh-xcode-completions path:src kind:fpath
+nilsonholger/osx-zsh-completions kind:fpath
+ohmyzsh/ohmyzsh path:plugins/gnu-utils
+ohmyzsh/ohmyzsh path:plugins/iterm2
+ohmyzsh/ohmyzsh path:plugins/macos
+ohmyzsh/ohmyzsh path:plugins/swiftpm
+vitkabele/complete-mac
+{{- end -}}
+
+{{- if eq .chezmoi.os "linux" -}}
+wehlando/efibootmgr-zsh-completion kind:fpath
+{{- end -}}
+
+# oh-my-zsh plugins
+ohmyzsh/ohmyzsh path:plugins/command-not-found kind:defer
+ohmyzsh/ohmyzsh path:plugins/fzf kind:defer
+ohmyzsh/ohmyzsh path:plugins/gitignore kind:defer
+ohmyzsh/ohmyzsh path:plugins/gpg-agent
+ohmyzsh/ohmyzsh path:plugins/pyenv
+ohmyzsh/ohmyzsh path:plugins/python
+ohmyzsh/ohmyzsh path:plugins/zoxide kind:defer
+
+# zsh-utils
+belak/zsh-utils path:completion
+belak/zsh-utils path:editor
+belak/zsh-utils path:history
+belak/zsh-utils path:utility
+
+# misc
+RobSis/zsh-reentry-hook
+bric3/nice-exit-code
+foxleigh81/unwrap-zsh-plugin
+mattmc3/zsh-safe-rm
+sunlei/zsh-ssh
+wintermi/zsh-lsd
+
+zsh-users/zsh-autosuggestions
+zdharma-continuum/fast-syntax-highlighting kind:defer

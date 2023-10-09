@@ -26,17 +26,24 @@
 			"keys": "alt+shift+d"
 		}
 	],
+	"alwaysShowNotificationIcon": false,
+	"centerOnLaunch": true,
 	"copyFormatting": "none",
 	"copyOnSelect": false,
 	"defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
 	"disabledProfileSources": ["Windows.Terminal.Azure"],
+	"newTabMenu": [
+		{
+			"type": "remainingProfiles"
+		}
+	],
 	"profiles": {
 		"defaults": {
 			"adjustIndistinguishableColors": "indexed",
 			"colorScheme": "One Half Dark",
 			"experimental.retroTerminalEffect": false,
 			"font": {
-				"face": "JetBrainsMonoNL Nerd Font Mono"
+				"face": "JetBrainsMono Nerd Font"
 			},
 			"opacity": 75,
 			"useAcrylic": true,
@@ -60,24 +67,6 @@
 				"guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
 				"hidden": false,
 				"name": "Command Prompt"
-			},
-			{
-				"guid": "{1147c6bf-15a9-58d1-bc2d-c790c868e8d8}",
-				"hidden": false,
-				"name": "Developer Command Prompt for VS 2022",
-				"source": "Windows.Terminal.VisualStudio"
-			},
-			{
-				"guid": "{5cfec433-3c7b-5027-a0bc-2ef95389e19c}",
-				"hidden": false,
-				"name": "Developer PowerShell for VS 2022",
-				"source": "Windows.Terminal.VisualStudio"
-			},
-			{
-				"guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
-				"hidden": false,
-				"name": "Arch",
-				"source": "Windows.Terminal.Wsl"
 			}
 		]
 	},
@@ -290,5 +279,7 @@
 			"yellow": "#808000"
 		}
 	],
-	"themes": []
+	"themes": [],
+	"useAcrylicInTabRow": true,
+	"windowingBehavior": "useAnyExisting"
 }
