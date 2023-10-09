@@ -85,7 +85,9 @@ if [[ -x "$(command -v chezmoi)" ]]; then
 	alias chemzoi='chezmoi'
 fi
 
-if [[ -x "$(command -v nano)" ]]; then
+if [[ -x "$(command -v gedit)" ]]; then
+	export EDITOR="$(which gedit)"
+elif [[ -x "$(command -v nano)" ]]; then
 	export EDITOR="$(which nano)"
 fi
 
