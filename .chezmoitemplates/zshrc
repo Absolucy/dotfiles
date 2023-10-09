@@ -31,7 +31,7 @@ zinit as wait'!0' lucid for \
 	blockf atpull="zinit creinstall -q ." \
 		zsh-users/zsh-completions \
 	as="completion" blockf has="docker" \
-		OMZP::docker/_docker \
+		OMZP::docker/completions/_docker \
 	as="completion" blockf has="docker-compose" \
 		OMZP::docker-compose/_docker-compose \
 	as="completion" blockf has="fd" \
