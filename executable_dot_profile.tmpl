@@ -39,6 +39,11 @@ if [[ -x "$(command -v brew)" ]]; then
 	fi
 fi
 
+if [[ -x "$(command -v pnpm)" ]]; then
+	export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
+	export PATH="${PNPM_HOME}:${PATH}"
+fi
+
 # Initialize rustup environment, if we need to do so.
 if [[ -f "${HOME}/.cargo/env" ]]; then
 	source "${HOME}/.cargo/env"
