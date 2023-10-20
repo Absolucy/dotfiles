@@ -49,6 +49,16 @@ if [[ -f "${HOME}/.cargo/env" ]]; then
 	source "${HOME}/.cargo/env"
 fi
 
+# Add /opt/homebrew/sbin to PATH
+if [[ -d /opt/homebrew/sbin ]] && [[ ":${PATH}:" != *":/opt/homebrew/sbin:"* ]]; then
+	export PATH="/opt/homebrew/sbin:${PATH}"
+fi
+
+# Add /opt/homebrew/bin to PATH
+if [[ -d /opt/homebrew/bin ]] && [[ ":${PATH}:" != *":/opt/homebrew/bin:"* ]]; then
+	export PATH="/opt/homebrew/bin:${PATH}"
+fi
+
 # Add /opt/bin to PATH
 if [[ -d /opt/bin ]] && [[ ":${PATH}:" != *":/opt/bin:"* ]]; then
 	export PATH="/opt/bin:${PATH}"
