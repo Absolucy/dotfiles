@@ -54,6 +54,11 @@ if [[ -d /opt/bin ]] && [[ ":${PATH}:" != *":/opt/bin:"* ]]; then
 	export PATH="/opt/bin:${PATH}"
 fi
 
+# Add /opt/local/bin to PATH
+if [[ -d /opt/local/bin ]] && [[ ":${PATH}:" != *":/opt/local/bin:"* ]]; then
+	export PATH="/opt/local/bin:${PATH}"
+fi
+
 # Add /usr/local/bin to PATH
 if [[ -d /usr/local/bin ]] && [[ ":${PATH}:" != *":/usr/local/bin:"* ]]; then
 	export PATH="/usr/local/bin:${PATH}"
@@ -69,15 +74,6 @@ if [[ -x "$(command -v bat)" ]]; then
 	alias bhelp='bat --plain --language=help'
 	alias cat='bat --paging=never --style=plain'
 	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-fi
-
-# Set up aliases for lsd, if it's installed.
-if [[ -x "$(command -v lsd)" ]]; then
-	alias ls='lsd --color=auto'
-	alias l='lsd -l'
-	alias la='lsd -a'
-	alias ll='lsd -la'
-	alias lt='lsd --tree'
 fi
 
 # Alias chezmoi to chemzoi because I keep mispelling it

@@ -10,24 +10,14 @@ source "${ZINIT_HOME}/zinit.zsh"
 
 zinit as wait'!0' lucid for \
 	foxleigh81/unwrap-zsh-plugin \
-	sunlei/zsh-ssh \
-	OMZP::gitignore \
-	OMZP::gpg-agent \
-	OMZP::python \
 	as="completion" blockf has="pip" \
 		OMZP::pip/_pip \
 	has="dotnet" \
 		OMZP::dotnet \
-	has="mosh" \
-		OMZP::mosh \
-	as="completion" blockf has="ufw" \
-		OMZP::ufw/_ufw \
 	has="zoxide" \
 		OMZP::zoxide \
 	has="atuin" \
 		ellie/atuin \
-	has="podman" \
-		OMZP::podman \
 	blockf atpull="zinit creinstall -q ." \
 		zsh-users/zsh-completions \
 	as="completion" blockf has="docker" \
@@ -58,3 +48,21 @@ zinit as wait'!0' lucid for \
 		zsh-users/zsh-autosuggestions \
 	has="starship" \
 		OMZP::starship
+
+# Navigation keybindings
+
+## Setup
+bindkey -d
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>/ '$'\n'
+autoload -Uz select-word-style
+select-word-style normal
+zstyle ':zle:*' word-style unspecified
+
+## Actual keybindings
+bindkey "^[[1;3C" forward-word
+bindkey "^[[1;3D" backward-word
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey "^H" backward-kill-word

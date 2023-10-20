@@ -1,14 +1,11 @@
 [build]
-incremental = true
 rustflags = [
 {{ if eq .chezmoi.os "linux" }}
 	"-C", "link-arg=-fuse-ld=mold",
 {{ else if eq .chezmoi.os "darwin" }}
 	"-C", "link-arg=-fuse-ld=lld",
 {{ end }}
-	"-C", "target-cpu=native"
 ]
-rustc-wrapper = "sccache"
 
 {{ if eq .chezmoi.os "linux" }}
 [target.x86_64-unknown-linux-gnu]
