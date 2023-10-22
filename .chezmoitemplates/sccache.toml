@@ -1,0 +1,5 @@
+[cache.s3]
+	bucket = "absolucy-sccache"
+	endpoint = "s3.wasabisys.com"
+	region = "us-east-1"
+	use_ssl = true
