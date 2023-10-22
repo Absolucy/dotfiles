@@ -1,3 +1,3 @@
 [cache.webdav]
-	endpoint = "http://10.0.0.2:30034/sccache"
+	endpoint = "http://roseon-core.local/sccache"
 	key_prefix = ""
