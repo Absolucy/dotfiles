@@ -1,16 +1,20 @@
 [build]
+incremental = false
 rustflags = [
-{{ if eq .chezmoi.os "linux" }}
+{{- if eq .chezmoi.os "linux" -}}
 	"-C", "link-arg=-fuse-ld=mold",
-{{ else if eq .chezmoi.os "darwin" }}
+{{- else if eq .chezmoi.os "darwin" -}}
 	"-C", "link-arg=-fuse-ld=lld",
-{{ end }}
+{{- end -}}
 ]
+{{ if (lookPath "sccache") -}}
+rustc-wrapper = "sccache"
+{{- end -}}
 
-{{ if eq .chezmoi.os "linux" }}
+{{- if eq .chezmoi.os "linux" -}}
 [target.x86_64-unknown-linux-gnu]
 linker = "clang"
-{{ end }}
+{{- end }}
 
 [registries.crates-io]
 protocol = "sparse"
