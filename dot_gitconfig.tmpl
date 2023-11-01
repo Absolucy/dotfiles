@@ -1,23 +1,44 @@
 [user]
 	name = Lucy
 	email = lucy@absolucy.moe
-	signingkey = BFEF5C044EE00163
+{{- if lookPath "op" }}
+	signingkey = {{ onepasswordRead "op://Personal/Github SSH/public key" }}
 [commit]
 	gpgsign = true
+{{- end }}
 [core]
-	excludesfile = ~/.gitignore_global
+{{ if lookPath "code" }}
+	editor = code --wait
+{{ else if lookPath "kate" }}
+	editor = kate
+{{ else if lookPath "gedit" }}
+	editor = gedit
+{{ else if lookPath "nano" }}
+	editor = nano
+{{ end }}
+{{ if lookPath "delta" }}
 	pager = delta
-	whitespace = -trailing-space
+{{ end }}
 {{ if eq .chezmoi.os "windows" }}
 	sshcommand = \"C:/Program Files/OpenSSH/ssh.exe\"
 {{ else if (and (eq .chezmoi.os "linux") (contains "microsoft" .chezmoi.kernel.osrelease)) }}
 	sshcommand = \"/mnt/c/Program Files/OpenSSH/ssh.exe\"
 {{ end }}
+	excludesfile = ~/.gitignore_global
+	whitespace = -trailing-space
+[interactive]
+    singlekey = true
 [alias]
 	reword = commit --amend
 	uncommit = reset --soft HEAD~1
 	untrack = rm --cache --
 	oops = commit --amend --no-edit
+	prune = fetch --prune
+	undo = reset --soft HEAD^
+	upstream = fetch upstream/master
+	untrack = rm --cache --
+	skip = update-index --skip-worktree
+	unskip = update-index --no-skip-worktree
 [interactive]
 	diffFilter = delta --color-only
 [delta]
@@ -29,26 +50,80 @@
 	ff = true
 [merge]
 	ff = true
+	conflictstyle = diff3
+[fetch]
+	recurseSubmodules = on-demand
+	prune = true
+[status]
+	showUntrackedFiles = all
+[apply]
+    whitespace = nowarn
 [push]
 	autoSetupRemote = true
+	default = simple
+	followTags = true
+[transfer]
+	fsckobjects = true
 [url "https://github.com/"]
 	insteadOf = "gh:"
 [url "git@github.com:"]
 	pushInsteadOf = "gh:"
 [color]
 	ui = auto
+	interactive = auto
+	showbranch = auto
+	status = auto
+[color "branch"]
+	# Blue on black is hard to read in git branch -vv: use cyan instead
+	upstream = cyan
 [log]
 	abbrevCommit = true
+	date = short
 [tag]
 	sort = version:refname
+[rebase]
+	autosquash = true
+	autostash = true
+[rerere]
+	enabled = true
+	autoupdate = true
+[commit]
+	verbose = true
 [diff]
 	mnemonicPrefix = true
+	renames = true
+	algorithm = histogram
+{{- if lookPath "json_xs" }}
+[diff "json"]
+	textconv = {{ if eq .chezmoi.os "windows" -}}
+		pwsh.exe echo \"$1\" | json_xs -e \"print JSON::XS->new->utf8->pretty->canonical->encode(\\$_)\" -t none
+	{{- else -}}
+		json_xs -e \"print JSON::XS->new->utf8->pretty->canonical->encode(\\$_)\" -t none < \"$1\"
+	{{- end -}}
+{{- end }}
 [init]
 	defaultBranch = main
-{{ if eq .chezmoi.os "windows" }}
+{{- if eq .chezmoi.os "windows" }}
 [gpg]
 	program = C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe
 {{ else if (and (eq .chezmoi.os "linux") (contains "microsoft" .chezmoi.kernel.osrelease)) }}
 [gpg]
-	program = /mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe
+	program = \"/mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe\"
+{{ end }}
+{{ if lookPath "op" }}
+	format = ssh
+[gpg "ssh"]
+{{- if eq .chezmoi.os "windows" }}
+	program = C:\\Program Files\\1Password\\app\\8\\op-ssh-sign.exe
+{{ else if eq .chezmoi.os "darwin" }}
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-signin
+{{- end -}}
+{{- end -}}
+[credential]
+{{ if eq .chezmoi.os "windows" }}
+	helper = manager
+{{ else if eq .chezmoi.os "darwin" }}
+	helper = osxkeychain
+{{ else }}
+	helper = store
 {{ end }}

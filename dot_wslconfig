@@ -1,0 +1,10 @@
+[wsl2]
+memory = "16GB"
+processors = 20
+guiApplications = true
+nestedVirtualization = true
+kernelCommandLine=ipv6.disable=1 mitigations=off elevator=noop
+
+[experimental]
+autoMemoryReclaim = "gradual"
+sparseVhd = true

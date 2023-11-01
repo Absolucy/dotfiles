@@ -9,20 +9,6 @@ Host router 10.0.0.1
 	User lucy
 	PubKeyAuthentication no
 
-Host macbook
-	HostName Lucys-Macbook-Air.local
-	User lucy
-	IdentitiesOnly yes
-	IdentityFile '~/.ssh/id_macbook.pub'
-
-{{ if lookPath "op" }}
-Host oracle
-	HostName {{ onepasswordRead "op://Personal/Oracle VPS/ip" }}
-	User lucy
-	IdentitiesOnly yes
-	IdentityFile '~/.ssh/id_oracle.pub'
-{{- end }}
-
 Host steamdeck
 	HostName lucys-steam-deck.local
 	User deck
