@@ -57,6 +57,15 @@
 				"source": "Windows.Terminal.PowershellCore"
 			},
 			{
+				"commandline": "\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\"",
+				"elevate": true,
+				"guid": "{5a143c43-ca19-4bf1-952e-9297272a9d2e}",
+				"hidden": false,
+				"icon": "ms-appx:///ProfileIcons/pwsh.png",
+				"name": "PowerShell (Admin)",
+				"startingDirectory": "%USERPROFILE%"
+			},
+			{
 				"commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
 				"guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
 				"hidden": false,
@@ -67,6 +76,14 @@
 				"guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
 				"hidden": false,
 				"name": "Command Prompt"
+			},
+			{
+				"commandline": "C:\\Windows\\system32\\wsl.exe -d Arch",
+				"guid": "{8919358b-bf33-4583-bad3-8c2bf0359d73}",
+				"hidden": false,
+				"icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
+				"name": "Arch WSL",
+				"startingDirectory": "~"
 			}
 		]
 	},

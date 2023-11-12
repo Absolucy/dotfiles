@@ -1,28 +1,33 @@
 [build]
-incremental = false
-rustflags = [
+	incremental = false
+	rustflags = [
 {{- if eq .chezmoi.os "linux" -}}
-	"-C", "link-arg=-fuse-ld=mold",
+		"-C", "link-arg=-fuse-ld=mold",
 {{- else if eq .chezmoi.os "darwin" -}}
-	"-C", "link-arg=-fuse-ld=lld",
+		"-C", "link-arg=-fuse-ld=lld",
 {{- end -}}
-]
+	]
 {{ if (lookPath "sccache") -}}
-rustc-wrapper = "sccache"
+	rustc-wrapper = "sccache"
 {{- end -}}
-
-{{- if eq .chezmoi.os "linux" -}}
-[target.x86_64-unknown-linux-gnu]
-linker = "clang"
-{{- end }}
 
 [registries.crates-io]
-protocol = "sparse"
+	protocol = "sparse"
 
 [profile.release]
-lto = "thin"
-strip = "none"
-debug = 1
+	debug = 1
+	lto = "thin"
+	strip = "none"
 
 [profile.dev]
-opt-level = 1
+	opt-level = 1
+
+[profile.perf]
+	codegen-units = 1
+	debug-assertions = false
+	incremental = false
+	inherits = "release"
+	lto = "fat"
+	opt-level = 3
+	overflow-checks = false
+	strip = "debuginfo"

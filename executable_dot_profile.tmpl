@@ -112,10 +112,3 @@ elif [[ "${OS}" == "macOS" ]]; then
 fi
 
 export LUCY_PROFILE_RAN=1
-
-{{ if (eq .chezmoi.hostname "cat-cafe") }}
-if [[ -x /opt/bin/zsh ]] && [[ -z "${ZSH_VERSION+x}" ]]; then
-	export SHELL=/opt/bin/zsh
-	exec /opt/bin/zsh
-fi
-{{ end }}

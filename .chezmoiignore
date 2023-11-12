@@ -25,4 +25,5 @@ Documents
 {{ if not (lookPath "op") }}
 .local/share/atuin
 .wakatime.cfg
+.ssh
 {{ end }}
