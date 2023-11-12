@@ -1,7 +1,7 @@
 Host *
 	AddressFamily inet
 	Compression yes
-	Ciphers aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes256-cbc
+	Ciphers aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes128-ctr,aes256-cbc,aes128-cbc
 {{ if ne .chezmoi.os "windows" }}
 	ControlMaster auto
 	ControlPath /tmp/ssh-cache/control:%h:%p:%r
