@@ -44,9 +44,10 @@ if [[ -d "${PNPM_HOME}" ]]; then
 	export PATH="${PNPM_HOME}:${PATH}"
 fi
 
+_cargo_home="${CARGO_HOME:-"${HOME}/.cargo"}"
 # Initialize rustup environment, if we need to do so.
-if [[ -f "${HOME}/.cargo/env" ]]; then
-	source "${HOME}/.cargo/env"
+if [[ -f "${_cargo_home}/env" ]]; then
+	source "${_cargo_home}/env"
 fi
 
 # Add /opt/homebrew/sbin to PATH
@@ -79,11 +80,22 @@ if [[ -d "${HOME}/.local/bin" ]] && [[ ":${PATH}:" != *":${HOME}/.local/bin:"* ]
 	export PATH="${HOME}/.local/bin:${PATH}"
 fi
 
+if [[ -d "${_cargo_home}/bin" ]] && [[ ":${PATH}:" != *":${_cargo_home}/bin:"* ]]; then
+	export PATH="${_cargo_home}/bin:${PATH}"
+fi
+
+unset _cargo_home
+
 # Set up aliases for bat, if it's installed.
 if [[ -x "$(command -v bat)" ]]; then
 	alias bhelp='bat --plain --language=help'
 	alias cat='bat --paging=never --style=plain'
 	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
+
+if [[ -x "$(command -v eza)" ]]; then
+	alias ls='eza --git --color=auto --icons=auto'
+	alias ll='eza --git --color=auto --icons=auto --long --binary --all'
 fi
 
 # Alias chezmoi to chemzoi because I keep mispelling it

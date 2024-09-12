@@ -7,9 +7,9 @@
 		"-C", "link-arg=-fuse-ld=lld",
 {{- end -}}
 	]
-{{ if (lookPath "sccache") -}}
+{{ if (lookPath "sccache") }}
 	rustc-wrapper = "sccache"
-{{- end -}}
+{{- end}}
 
 [registries.crates-io]
 	protocol = "sparse"

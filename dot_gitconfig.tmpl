@@ -110,20 +110,20 @@
 [gpg]
 	program = \"/mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe\"
 {{ end }}
-{{ if lookPath "op" }}
+{{- if lookPath "op" }}
 	format = ssh
 [gpg "ssh"]
 {{- if eq .chezmoi.os "windows" }}
 	program = C:\\Program Files\\1Password\\app\\8\\op-ssh-sign.exe
 {{ else if eq .chezmoi.os "darwin" }}
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-signin
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 {{- end -}}
-{{- end -}}
+{{- end  }}
 [credential]
-{{ if eq .chezmoi.os "windows" }}
+{{- if eq .chezmoi.os "windows" }}
 	helper = manager
-{{ else if eq .chezmoi.os "darwin" }}
+{{- else if eq .chezmoi.os "darwin" }}
 	helper = osxkeychain
-{{ else }}
+{{- else }}
 	helper = store
-{{ end }}
+{{- end }}

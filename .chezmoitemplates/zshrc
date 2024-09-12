@@ -24,8 +24,6 @@ zinit as wait'!0' lucid for \
 		OMZP::docker/completions/_docker \
 	as="completion" blockf has="docker-compose" \
 		OMZP::docker-compose/_docker-compose \
-	as="completion" blockf has="fd" \
-		OMZP::fd/_fd \
 	as="completion" blockf has="rustc" \
 		OMZP::rust/_rustc \
 	as="completion" blockf has="http" \
@@ -34,8 +32,6 @@ zinit as wait'!0' lucid for \
 		MenkeTechnologies/zsh-cargo-completion \
 	as="completion" blockf has="tldr" mv="zsh_tealdeer -> _tldr" \
 		https://github.com/dbrgn/tealdeer/blob/main/completion/zsh_tealdeer \
-	as="completion" blockf has="rg" \
-		https://github.com/BurntSushi/ripgrep/blob/master/complete/_rg \
 	as="completion" blockf has="pnpm" \
 		https://github.com/baliestri/pnpm.plugin.zsh/blob/main/_pnpm \
 	has="fzf" \

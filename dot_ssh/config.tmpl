@@ -20,17 +20,11 @@ Host router 10.0.0.1
 	PubKeyAuthentication no
 	Compression no
 
-Host nas
-	HostName roseon.local
+Host nas roseon
+	HostName 10.0.0.2
 	User lucy
 	IdentitiesOnly yes
 	IdentityFile '~/.ssh/Roseon.pub'
-
-Host vps
-	HostName {{ onepasswordRead "op://Personal/Poppyenthal VPS/ipv4 address" }}
-	User lucy
-	IdentitiesOnly yes
-	IdentityFile '~/.ssh/Poppyenthal.pub'
 
 Host deck
 	HostName lucy-steamdeck.local
