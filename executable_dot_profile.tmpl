@@ -80,10 +80,16 @@ if [[ -d "${HOME}/.local/bin" ]] && [[ ":${PATH}:" != *":${HOME}/.local/bin:"* ]
 	export PATH="${HOME}/.local/bin:${PATH}"
 fi
 
+_dotnet_root="${DOTNET_ROOT:-"${HOME}/.dotnet"}"
+if [[ -d "${_dotnet_root}/tools" ]] && [[ ":${PATH}:" != *":${_dotnet_root}/tools:"* ]]; then
+	export PATH="${_dotnet_root}/tools:${PATH}"
+fi
+
 if [[ -d "${_cargo_home}/bin" ]] && [[ ":${PATH}:" != *":${_cargo_home}/bin:"* ]]; then
 	export PATH="${_cargo_home}/bin:${PATH}"
 fi
 
+unset _dotnet_root
 unset _cargo_home
 
 # Set up aliases for bat, if it's installed.

@@ -8,6 +8,8 @@ fi
 [ ! -d "${ZINIT_HOME}/.git" ] && git clone https://github.com/zdharma-continuum/zinit.git "${ZINIT_HOME}"
 source "${ZINIT_HOME}/zinit.zsh"
 
+eval "$(starship init zsh)"
+
 zinit as wait'!0' lucid for \
 	foxleigh81/unwrap-zsh-plugin \
 	as="completion" blockf has="pip" \
@@ -41,9 +43,7 @@ zinit as wait'!0' lucid for \
 	atinit="zicompinit; zicdreplay" \
 		zdharma-continuum/fast-syntax-highlighting \
 	atload="_zsh_autosuggest_start" \
-		zsh-users/zsh-autosuggestions \
-	has="starship" \
-		OMZP::starship
+		zsh-users/zsh-autosuggestions
 
 # Navigation keybindings
 
