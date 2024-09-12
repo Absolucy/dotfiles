@@ -1,0 +1,6 @@
+#!/bin/bash
+set -xe
+brew update
+brew upgrade
+brew upgrade --cask
+brew cleanup --prune=all --scrub
