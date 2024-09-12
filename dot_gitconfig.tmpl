@@ -111,6 +111,7 @@
 	program = \"/mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe\"
 {{ end }}
 {{- if lookPath "op" }}
+[gpg]
 	format = ssh
 [gpg "ssh"]
 {{- if eq .chezmoi.os "windows" }}
