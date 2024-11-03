@@ -140,6 +140,6 @@ elif [ "$OS" = "macOS" ]; then
 	export BROWSER="$(command -v open)"
 fi
 
-set_env_with_launchctl RUSTUP_HOME CARGO_HOME DOTNET_ROOT HOMEBREW_NO_ENV_HINTS MANPAGER EDITOR
+set_env_with_launchctl RUSTUP_HOME CARGO_HOME DOTNET_ROOT HOMEBREW_NO_ENV_HINTS MANPAGER EDITOR BROWSER
 
 export LUCY_PROFILE_RAN=1
