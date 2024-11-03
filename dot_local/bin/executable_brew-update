@@ -4,3 +4,4 @@ brew update
 brew upgrade
 brew upgrade --cask
 brew cleanup --prune=all --scrub
+applesauce compress -c lzfse -l 9 "$(brew --prefix)"
