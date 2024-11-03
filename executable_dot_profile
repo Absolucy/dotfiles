@@ -1,0 +1,145 @@
+# =============================================================================
+# Shell Profile Configuration
+# Supports: zsh and bash
+# =============================================================================
+# shellcheck shell=bash
+# shellcheck disable=SC1091,SC2155
+
+# Ensure we're in a supported shell
+[ -n "${ZSH_VERSION+x}${BASH_VERSION+x}" ] || return 0
+
+# -----------------------------------------------------------------------------
+# System Detection and Base Configuration
+# -----------------------------------------------------------------------------
+
+# Helper function for macOS launchctl environment variables
+set_env_with_launchctl() {
+	if [ "$OS" = "macOS" ]; then
+		for var_name in "$@"; do
+			# Use eval to handle indirect variable expansion in a shell-agnostic way
+			eval "var_value=\${$var_name}"
+			if [ -n "$var_value" ]; then
+				export "$var_name"="$var_value"
+				launchctl setenv "$var_name" "$var_value"
+			fi
+		done
+	fi
+}
+
+# Detect operating system
+case "$(uname -s)" in
+	Darwin*)    export OS=macOS ;;
+	Linux*)     export OS=Linux ;;
+	CYGWIN*)    export OS=Cygwin ;;
+	MINGW*)     export OS=MinGW ;;
+	*)          export OS="UNKNOWN:$(uname -s)" ;;
+esac
+
+# Set up XDG directories based on OS
+if [ "$OS" = "macOS" ]; then
+	export XDG_CONFIG_HOME="${HOME}/Library/Preferences"
+	export XDG_CACHE_HOME="${HOME}/Library/Caches"
+	export XDG_DATA_HOME="${HOME}/Library"
+
+	# macOS-specific paths
+	export RUSTUP_HOME="${HOME}/Library/Application Support/Rust/rustup"
+	export CARGO_HOME="${HOME}/Library/Application Support/Rust/cargo"
+	export DOTNET_ROOT="${HOME}/Library/Application Support/Dotnet"
+else
+	export XDG_CONFIG_HOME="${HOME}/.config"
+	export XDG_CACHE_HOME="${HOME}/.cache"
+	export XDG_DATA_HOME="${HOME}/.local/share"
+fi
+
+# -----------------------------------------------------------------------------
+# Path Configuration
+# -----------------------------------------------------------------------------
+
+# Function to safely add directories to PATH
+add_to_path() {
+	if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+		PATH="$1:$PATH"
+	fi
+}
+
+if [ "$OS" = "macOS" ]; then
+	add_to_path "/opt/homebrew/sbin"
+	add_to_path "/opt/homebrew/bin"
+fi
+
+# Homebrew configuration
+if command -v brew >/dev/null 2>&1; then
+	BREW_PREFIX="$(brew --prefix)"
+	add_to_path "${BREW_PREFIX}/sbin"
+	add_to_path "${BREW_PREFIX}/bin"
+
+	export HOMEBREW_NO_ENV_HINTS=1
+fi
+
+# Standard system paths
+add_to_path "/opt/bin"
+add_to_path "/opt/local/bin"
+add_to_path "/usr/local/bin"
+add_to_path "${HOME}/.local/bin"
+
+# Tool-specific paths
+export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
+add_to_path "${PNPM_HOME}"
+
+# Rust configuration
+CARGO_HOME="${CARGO_HOME:-"${HOME}/.cargo"}"
+[ -f "${CARGO_HOME}/env" ] && . "${CARGO_HOME}/env"
+add_to_path "${CARGO_HOME}/bin"
+
+# .NET configuration
+DOTNET_ROOT="${DOTNET_ROOT:-"${HOME}/.dotnet"}"
+add_to_path "${DOTNET_ROOT}/tools"
+
+# LM Studio CLI
+add_to_path "${HOME}/.cache/lm-studio/bin"
+
+export PATH
+
+# -----------------------------------------------------------------------------
+# Application Configurations
+# -----------------------------------------------------------------------------
+
+# Configure bat if available
+if command -v bat >/dev/null 2>&1; then
+	alias cat='bat --paging=never --style=plain'
+	alias bhelp='bat --plain --language=help'
+	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
+
+# Configure eza if available
+if command -v eza >/dev/null 2>&1; then
+	alias ls='eza --git --color=auto --icons=auto'
+	alias ll='eza --git --color=auto --icons=auto --long --binary --all'
+fi
+
+# Common typo fix for chezmoi
+command -v chezmoi >/dev/null 2>&1 && alias chemzoi='chezmoi'
+
+# Set default editor
+if command -v gedit >/dev/null 2>&1; then
+	export EDITOR="$(command -v gedit)"
+elif command -v nano >/dev/null 2>&1; then
+	export EDITOR="$(command -v nano)"
+fi
+
+# Configure browser based on OS
+if [ "$OS" = "Linux" ]; then
+	if command -v wslview >/dev/null 2>&1; then
+		export BROWSER="$(command -v wslview)"
+	elif command -v xdg-open >/dev/null 2>&1; then
+		export BROWSER="$(command -v xdg-open)"
+	fi
+	# Set terminal type for WSL
+	[ -n "$WSL_DISTRO_NAME" ] && export TERM="ms-terminal"
+elif [ "$OS" = "macOS" ]; then
+	export BROWSER="$(command -v open)"
+fi
+
+set_env_with_launchctl RUSTUP_HOME CARGO_HOME DOTNET_ROOT HOMEBREW_NO_ENV_HINTS MANPAGER EDITOR
+
+export LUCY_PROFILE_RAN=1
