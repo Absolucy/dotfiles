@@ -1,10 +1,14 @@
 [wsl2]
-memory = "16GB"
-processors = 20
+memory = "48GB"
+swap = "64GB"
+processors = 12
 guiApplications = true
 nestedVirtualization = true
-kernelCommandLine=ipv6.disable=1 mitigations=off elevator=noop
+networkingMode = "mirrored"
+firewall = false
+kernelCommandLine = sysctl.kernel.perf_event_paranoid=-1 sysctl.kernel.perf_event_mlock_kb=2048 cgroup_no_v1=all mitigations=off
+kernel = C:\\Users\\Lucy\\Documents\\VMs\\WSL2\\bzImage
 
 [experimental]
-autoMemoryReclaim = "gradual"
+autoMemoryReclaim = "dropcache"
 sparseVhd = true
