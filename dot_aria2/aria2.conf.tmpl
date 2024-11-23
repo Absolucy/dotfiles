@@ -1,0 +1,7 @@
+max-concurrent-downloads = 5
+split = 5
+content-disposition-default-utf8 = true
+disable-ipv6 = true
+{{ if ne .chezmoi.os "windows" -}}
+file-allocation = falloc
+{{ end -}}
