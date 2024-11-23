@@ -1,0 +1,6 @@
+{{- $data_dir := joinPath .chezmoi.workingTree ".chezmoidata" -}}
+{{- $in_file := joinPath $data_dir "1pw.toml" -}}
+{{- $out_file := joinPath $data_dir "_1pw.toml" -}}
+
+# 1pw.toml hash: {{ include $in_file | sha256sum }}
+op inject -i {{ $in_file | quote }} -o {{ $out_file | quote }}

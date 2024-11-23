@@ -1,0 +1,9 @@
+{{- $cargo_toml := joinPath .chezmoi.workingTree ".chezmoitemplates" "cargo.toml" -}}
+#!/bin/bash
+
+# .cargo/config.toml hash: {{ include $cargo_toml | sha256sum }}
+
+_cargo_home="${CARGO_HOME:-"${HOME}/.cargo"}"
+mkdir -p "${_cargo_home}"
+cat {{ $cargo_toml | quote }} | chezmoi execute-template > "${_cargo_home}/config.toml"
+unset _cargo_home

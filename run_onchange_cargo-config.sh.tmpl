@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# .cargo/config.toml hash: {{ include "dot_cargo/config.toml.tmpl" | sha256sum }}
-
-_cargo_home="${CARGO_HOME:-"${HOME}/.cargo"}"
-cat {{ joinPath .chezmoi.sourceDir "dot_cargo/config.toml.tmpl" | quote }} | chezmoi execute-template > "${_cargo_home}/config.toml"
-unset _cargo_home

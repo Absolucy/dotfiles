@@ -1,0 +1,9 @@
+[ssh]
+github = "{{ op://Personal/Github SSH/public key }}"
+macbook = "{{ op://Personal/MacBook Air/public key }}"
+nas = "{{ op://Personal/Roseon NAS/public key }}"
+steamdeck = "{{ op://Personal/Steam Deck/public key }}"
+
+[keys]
+wakatime = "{{ op://Personal/WakaTime/api key }}"
+atuin = "{{ op://Personal/Atuin/encryption key }}"

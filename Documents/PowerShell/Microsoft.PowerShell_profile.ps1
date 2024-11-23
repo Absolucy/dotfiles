@@ -119,3 +119,31 @@ function Load-Vs-Shell {
 	Write-Host " → Host Architecture: $HostArch" -ForegroundColor Cyan
 	Write-Host " → Compiler: $Compiler" -ForegroundColor Cyan
 }
+
+
+function Find-ScoopExe {
+	param(
+		[Parameter(Mandatory=$true)]
+		[string]$Package,
+
+		[Parameter(Mandatory=$true)]
+		[string]$Executable
+	)
+
+	$packagePath = scoop prefix $Package
+	if ($LASTEXITCODE -ne 0) {
+		Write-Error "Failed to get path for scoop package '$Package'"
+		return $null
+	}
+
+	# Use fd to search recursively for the executable
+	# --type x for executables only
+	# -1 to stop after first match
+	$result = fd -1 --type x "^$Executable$" $packagePath
+	if ($LASTEXITCODE -ne 0) {
+		Write-Error "Failed to find '$Executable' in '$packagePath'"
+		return $null
+	}
+
+	return $result
+}

@@ -2,31 +2,31 @@
 	name = Lucy
 	email = lucy@absolucy.moe
 {{- if lookPath "op" }}
-	signingkey = {{ onepasswordRead "op://Personal/Github SSH/public key" }}
+	signingkey = {{ .ssh.github }}
 [commit]
 	gpgsign = true
 {{- end }}
 [core]
-{{ if lookPath "code" }}
+{{- if lookPath "code" }}
 	editor = code --wait
-{{ else if lookPath "kate" }}
+{{- else if lookPath "kate" }}
 	editor = kate
-{{ else if lookPath "gedit" }}
+{{- else if lookPath "gedit" }}
 	editor = gedit
-{{ else if lookPath "nano" }}
+{{- else if lookPath "nano" }}
 	editor = nano
-{{ end }}
-{{ if lookPath "delta" }}
+{{- end }}
+{{- if lookPath "delta" }}
 	pager = delta
-{{ end }}
-{{ if eq .chezmoi.os "windows" }}
-	sshcommand = {{ lookPath "ssh.exe" | quote }}
-{{ else if (and (eq .chezmoi.os "linux") (contains "microsoft" .chezmoi.kernel.osrelease)) }}
-	sshcommand = \"/mnt/c/Program Files/OpenSSH/ssh.exe\"
-{{ end }}
+{{- end }}
+{{- if eq .chezmoi.os "windows" }}
+	sshcommand = {{ lookPath "ssh.exe" | quote | replace "\\\\" "/" }}
+{{- else if (and (eq .chezmoi.os "linux") (contains "microsoft" .chezmoi.kernel.osrelease)) }}
+	sshcommand = "/mnt/c/Program Files/OpenSSH/ssh.exe"
+{{- end }}
 	whitespace = -trailing-space
 [interactive]
-    singlekey = true
+	singlekey = true
 [alias]
 	reword = commit --amend
 	uncommit = reset --soft HEAD~1
@@ -59,7 +59,7 @@
 [status]
 	showUntrackedFiles = all
 [apply]
-    whitespace = nowarn
+	whitespace = nowarn
 [push]
 	autoSetupRemote = true
 	default = simple
@@ -76,7 +76,6 @@
 	showbranch = auto
 	status = auto
 [color "branch"]
-	# Blue on black is hard to read in git branch -vv: use cyan instead
 	upstream = cyan
 [log]
 	abbrevCommit = true
@@ -97,24 +96,22 @@
 	algorithm = histogram
 {{- if lookPath "json_xs" }}
 [diff "json"]
-	textconv = {{ if eq .chezmoi.os "windows" -}}
-		pwsh.exe echo \"$1\" | json_xs -e \"print JSON::XS->new->utf8->pretty->canonical->encode(\\$_)\" -t none
-	{{- else -}}
-		json_xs -e \"print JSON::XS->new->utf8->pretty->canonical->encode(\\$_)\" -t none < \"$1\"
-	{{- end -}}
+	textconv = {{- if eq .chezmoi.os "windows" }} "pwsh.exe -Command \"Get-Content '$1' | json_xs -f json -t json-pretty\""
+	{{- else }} "json_xs -f json -t json-pretty < \"$1\""
+	{{- end }}
 {{- end }}
 [init]
 	defaultBranch = main
-{{- $op_ssh_sign := findExecutable "op-ssh-sign.exe" (list (joinPath (env "LocalAppData") "1Password/app/8") (joinPath (env "ProgramFiles") "1Password/app/8") "/Applications/1Password.app/Contents/MacOS") -}}
+{{- $op_ssh_sign := findExecutable "op-ssh-sign.exe" (list (joinPath (env "LocalAppData") "1Password/app/8") (joinPath (env "ProgramFiles") "1Password/app/8") "/Applications/1Password.app/Contents/MacOS") }}
 {{- if $op_ssh_sign }}
 [gpg]
 	format = ssh
 [gpg "ssh"]
-	program = {{ $op_ssh_sign | quote }}
-{{- end  }}
+	program = {{ $op_ssh_sign | quote | replace "\\\\" "/" }}
+{{- end }}
 [credential]
 {{- if eq .chezmoi.os "windows" }}
-    helper = {{ template "find_scoop_exe" (list "git-without-openssh" "git-credential-manager.exe" true) }}
+	helper = {{ template "find_scoop_exe" (list "git-without-openssh" "git-credential-manager.exe" true) }}
 {{- else if eq .chezmoi.os "darwin" }}
 	helper = osxkeychain
 {{- else }}

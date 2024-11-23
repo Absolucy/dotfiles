@@ -2,6 +2,7 @@
 .bashrc
 .profile
 .zshrc
+.zshenv
 .local/share/atuin
 {{ end }}
 
@@ -12,6 +13,7 @@
 {{ end }}
 {{ end }}
 !.config/git
+!.config/chezmoi/chezmoi.toml
 
 {{ if ne .chezmoi.os "darwin" }}
 Library
@@ -31,3 +33,22 @@ Documents
 .wakatime.cfg
 .ssh
 {{ end }}
+
+{{ if eq .chezmoi.os "windows" }}
+.chezmoiscripts/*.sh
+{{ else }}
+.chezmoiscripts/*.ps1
+{{ end }}
+
+.chezmoidata/*.tpl
+
+{{- $skipExpensiveArgs := list "--dry-run" "-n" "diff" "status" }}
+{{- $skipExpensive := false }}
+{{- range $skipExpensiveArgs }}
+	{{- if has . $.chezmoi.args }}
+		{{- $skipExpensive = true }}
+	{{- end }}
+{{- end }}
+
+{{- if $skipExpensive }}
+{{- end }}

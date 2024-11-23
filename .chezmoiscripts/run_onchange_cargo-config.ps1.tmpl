@@ -1,0 +1,7 @@
+{{- $cargo_toml := joinPath .chezmoi.workingTree ".chezmoitemplates" "cargo.toml" -}}
+# .cargo/config.toml hash: {{ include $cargo_toml | sha256sum }}
+
+$_cargo_home = if ($env:CARGO_HOME) { $env:CARGO_HOME } else { Join-Path $env:USERPROFILE '.cargo' }
+New-Item -ItemType Directory -Path $_cargo_home -Force | Out-Null
+cat {{ $cargo_toml | quote }} | chezmoi execute-template > (Join-Path $_cargo_home 'config.toml')
+Remove-Variable -Name _cargo_home
