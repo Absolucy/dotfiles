@@ -1,0 +1,7 @@
+{{- define "find_scoop_exe" -}}
+{{- $package := index . 0 -}}
+{{- $exe := index . 1 -}}
+{{- $quote := index . 2 -}}
+{{- $path := output "fd" "-1" "--type" "x" (printf "^%s$" $exe) (output "scoop" "prefix" $package | trim) | trim -}}
+{{- if and $path $quote -}}{{- $path | quote -}}{{- else -}}{{- $path -}}{{- end -}}
+{{- end -}}

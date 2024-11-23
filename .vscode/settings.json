@@ -1,6 +1,8 @@
 {
 	"files.associations": {
 		"*.tmpl": "go-template",
-		".chezmoiignore": "go-template"
+		"**/.chezmoitemplates/**/*": "go-template",
+		".chezmoiignore": "go-template",
+		"dot_config/git/ignore": "ignore"
 	}
 }

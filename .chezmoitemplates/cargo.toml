@@ -1,0 +1,36 @@
+{{- $linkers := dict
+	"linux" "mold"
+	"darwin" "lld"
+-}}
+
+[build]
+incremental = false
+rustflags = [
+{{- if hasKey $linkers .chezmoi.os }}
+	"-C", "link-arg=-fuse-ld={{ get $linkers .chezmoi.os }}",
+{{- end }}
+]
+{{- if (lookPath "sccache") }}
+rustc-wrapper = "sccache"
+{{- end}}
+
+[registries.crates-io]
+protocol = "sparse"
+
+[profile.release]
+debug = 1
+lto = "thin"
+strip = "none"
+
+[profile.dev]
+opt-level = 1
+
+[profile.perf]
+codegen-units = 1
+debug-assertions = false
+incremental = false
+inherits = "release"
+lto = "fat"
+opt-level = 3
+overflow-checks = false
+strip = "debuginfo"

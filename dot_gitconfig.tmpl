@@ -20,11 +20,10 @@
 	pager = delta
 {{ end }}
 {{ if eq .chezmoi.os "windows" }}
-	sshcommand = \"C:/Program Files/OpenSSH/ssh.exe\"
+	sshcommand = {{ lookPath "ssh.exe" | quote }}
 {{ else if (and (eq .chezmoi.os "linux") (contains "microsoft" .chezmoi.kernel.osrelease)) }}
 	sshcommand = \"/mnt/c/Program Files/OpenSSH/ssh.exe\"
 {{ end }}
-	excludesfile = ~/.gitignore_global
 	whitespace = -trailing-space
 [interactive]
     singlekey = true
@@ -39,6 +38,9 @@
 	untrack = rm --cache --
 	skip = update-index --skip-worktree
 	unskip = update-index --no-skip-worktree
+	cp = cherry-pick
+	cc = cherry-pick --continue
+	ca = cherry-pick --abort
 [interactive]
 	diffFilter = delta --color-only
 [delta]
@@ -103,26 +105,16 @@
 {{- end }}
 [init]
 	defaultBranch = main
-{{- if eq .chezmoi.os "windows" }}
-[gpg]
-	program = C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe
-{{ else if (and (eq .chezmoi.os "linux") (contains "microsoft" .chezmoi.kernel.osrelease)) }}
-[gpg]
-	program = \"/mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe\"
-{{ end }}
-{{- if lookPath "op" }}
+{{- $op_ssh_sign := findExecutable "op-ssh-sign.exe" (list (joinPath (env "LocalAppData") "1Password/app/8") (joinPath (env "ProgramFiles") "1Password/app/8") "/Applications/1Password.app/Contents/MacOS") -}}
+{{- if $op_ssh_sign }}
 [gpg]
 	format = ssh
 [gpg "ssh"]
-{{- if eq .chezmoi.os "windows" }}
-	program = C:\\Program Files\\1Password\\app\\8\\op-ssh-sign.exe
-{{ else if eq .chezmoi.os "darwin" }}
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
-{{- end -}}
+	program = {{ $op_ssh_sign | quote }}
 {{- end  }}
 [credential]
 {{- if eq .chezmoi.os "windows" }}
-	helper = manager
+    helper = {{ template "find_scoop_exe" (list "git-without-openssh" "git-credential-manager.exe" true) }}
 {{- else if eq .chezmoi.os "darwin" }}
 	helper = osxkeychain
 {{- else }}

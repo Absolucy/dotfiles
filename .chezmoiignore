@@ -6,22 +6,24 @@
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
-.config
+.config/*
+{{ if (and (.chezmoi.osRelease) (eq .chezmoi.osRelease.id "arch")) }}
+!.config/paru
 {{ end }}
-{{ if (and (eq .chezmoi.os "linux") (.chezmoi.osRelease) (ne .chezmoi.osRelease.id "arch")) }}
-.config/paru
 {{ end }}
+!.config/git
 
 {{ if ne .chezmoi.os "darwin" }}
 Library
 .local/bin/brew-update
+{{ else }}
+.cargo
 {{ end }}
 
 {{ if ne .chezmoi.os "windows" }}
 AppData
 Documents
 .wslconfig
-.cargo
 {{ end }}
 
 {{ if not (lookPath "op") }}
