@@ -3,5 +3,5 @@
 
 $_cargo_home = if ($env:CARGO_HOME) { $env:CARGO_HOME } else { Join-Path $env:USERPROFILE '.cargo' }
 New-Item -ItemType Directory -Path $_cargo_home -Force | Out-Null
-cat {{ $cargo_toml | quote }} | chezmoi execute-template > (Join-Path $_cargo_home 'config.toml')
+chezmoi execute-template {{ $cargo_toml | quote }} | Set-Content -Path (Join-Path $_cargo_home 'config.toml') -Encoding UTF8
 Remove-Variable -Name _cargo_home
