@@ -1,8 +1,9 @@
 {
 	"files.associations": {
-		"*.tmpl": "go-template",
-		"**/.chezmoitemplates/**/*": "go-template",
 		".chezmoiignore": "go-template",
-		"dot_config/git/ignore": "ignore"
+		"**/.chezmoitemplates/**/*": "go-template",
+		"**/.chezmoitemplates/zshrc": "shellscript",
+		"dot_config/git/ignore": "ignore",
+		"*.tmpl": "go-template",
 	}
 }
